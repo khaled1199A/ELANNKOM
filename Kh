@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+‏le=no">
+
+‏    <title>تطبيق جوال</title>
+‏    <style>
+        * {
+‏            margin: 0;
+‏            padding: 0;
+‏            box-sizing: border-box;
+‏            font-family: 'Tajawal', sans-serif;
+        }
+        
+‏        body {
+‏            background-color: #f4f4f4;
+‏            color: #333;
+‏            direction: rtl;
+        }
+        
+‏        .app-container {
+‏            max-width: 100%;
+‏            margin: 0 auto;
+‏            height: 100vh;
+‏            display: flex;
+‏            flex-direction: column;
+        }
+        
+        /* شريط التنقل العلوي */
+‏        .header {
+‏            background-color: #4285f4;
+‏            color: white;
+‏            padding: 15px;
+‏            text-align: center;
+‏            position: relative;
+‏            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+‏        .header h1 {
+‏            font-size: 20px;
+        }
+        
+        /* المحتوى الرئيسي */
+‏        .content {
+‏            flex: 1;
+‏            padding: 20px;
+‏            overflow-y: auto;
+        }
+        
+‏        .card {
+‏            background-color: white;
+‏            border-radius: 8px;
+‏            padding: 15px;
+‏            margin-bottom: 15px;
+‏            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+‏        .card h2 {
+‏            color: #4285f4;
+‏            margin-bottom: 10px;
+‏            font-size: 18px;
+        }
+        
+‏        .card p {
+‏            color: #666;
+‏            line-height: 1.6;
+        }
+        
+        /* قائمة العناصر */
+‏        .list-item {
+‏            display: flex;
+‏            align-items: center;
+‏            padding: 10px 0;
+‏            border-bottom: 1px solid #eee;
+        }
+        
+‏        .list-item:last-child {
+‏            border-bottom: none;
+        }
+        
+‏        .list-item-icon {
+‏            width: 40px;
+‏            height: 40px;
+‏            background-color: #e6f2ff;
+‏            border-radius: 50%;
+‏            display: flex;
+‏            align-items: center;
+‏            justify-content: center;
+‏            margin-left: 15px;
+        }
+        
+‏        .list-item-content {
+‏            flex: 1;
+        }
+        
+‏        .list-item-title {
+‏            font-weight: bold;
+‏            margin-bottom: 5px;
+        }
+        
+‏        .list-item-desc {
+‏            font-size: 14px;
+‏            color: #666;
+        }
+        
+        /* نموذج الإدخال */
+‏        .input-form {
+‏            margin-top: 20px;
+        }
+        
+‏        .form-group {
+‏            margin-bottom: 15px;
+        }
+        
+‏        .form-group label {
+‏            display: block;
+‏            margin-bottom: 8px;
+‏            font-weight: bold;
+        }
+        
+‏        .form-control {
+‏            width: 100%;
+‏            padding: 12px;
+‏            border: 1px solid #ddd;
+‏            border-radius: 6px;
+‏            font-size: 16px;
+        }
+        
+‏        .btn {
+‏            background-color: #4285f4;
+‏            color: white;
+‏            border: none;
+‏            padding: 12px 20px;
+‏            border-radius: 6px;
+‏            font-size: 16px;
+‏            cursor: pointer;
+‏            width: 100%;
+        }
+        
+‏        .btn:hover {
+‏            background-color: #3367d6;
+        }
+        
+        /* القائمة السفلية */
+‏        .bottom-nav {
+‏            display: flex;
+‏            background-color: white;
+‏            box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+        }
+        
+‏        .nav-item {
+‏            flex: 1;
+‏            text-align: center;
+‏            padding: 12px;
+‏            color: #666;
+        }
+        
+‏        .nav-item.active {
+‏            color: #4285f4;
+        }
+        
+‏        .nav-icon {
+‏            font-size: 24px;
+‏            margin-bottom: 5px;
+        }
+        
+‏        .nav-text {
+‏            font-size: 12px;
+        }
+        
+        /* مخفي بشكل افتراضي */
+‏        .page {
+‏            display: none;
+        }
+        
+‏        .page.active {
+‏            display: block;
+        }
+‏    </style>
+    <!-- استدعاء خط Tajawal من جوجل فونتس -->
+‏    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- استدعاء مكتبة Font Awesome للأيقونات -->
+‏    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+‏</head>
+‏<body>
+‏    <div class="app-container">
+‏        <div class="header">
+‏            <h1>تطبيق جوال</h1>
+‏        </div>
+        
+‏        <div class="content">
+            <!-- الصفحة الرئيسية -->
+‏            <div class="page active" id="home-page">
+‏                <div class="card">
+‏                    <h2>مرحباً بك في التطبيق!</h2>
+‏                    <p>هذا نموذج لتطبيق جوال متكامل تم بناؤه باستخدام HTML و CSS و JavaScript.</p>
+‏                </div>
+                
+‏                <div class="card">
+‏                    <h2>آخر الأنشطة</h2>
+‏                    <div class="list-item">
+‏                        <div class="list-item-icon">
+‏                            <i class="fas fa-bell"></i>
+‏                        </div>
+‏                        <div class="list-item-content">
+‏                            <div class="list-item-title">إشعار جديد</div>
+‏                            <div class="list-item-desc">تم إضافة ميزات جديدة للتطبيق</div>
+‏                        </div>
+‏                    </div>
+‏                    <div class="list-item">
+‏                        <div class="list-item-icon">
+‏                            <i class="fas fa-check-circle"></i>
+‏                        </div>
+‏                        <div class="list-item-content">
+‏                            <div class="list-item-title">مهمة مكتملة</div>
+‏                            <div class="list-item-desc">تم الانتهاء من المهمة بنجاح</div>
+‏                        </div>
+‏                    </div>
+‏                    <div class="list-item">
+‏                        <div class="list-item-icon">
+‏                            <i class="fas fa-calendar"></i>
+‏                        </div>
+‏                        <div class="list-item-content">
+‏                            <div class="list-item-title">موعد جديد</div>
+‏                            <div class="list-item-desc">لديك موعد جديد غداً في تمام الساعة 10 صباحاً</div>
+‏                        </div>
+‏                    </div>
+‏                </div>
+‏            </div>
+            
+            <!-- صفحة البحث -->
+‏            <div class="page" id="search-page">
+‏                <div class="card">
+‏                    <h2>البحث</h2>
+‏                    <div class="input-form">
+‏                        <div class="form-group">
+‏                            <input type="text" class="form-control" placeholder="ابحث هنا...">
+‏                        </div>
+‏                        <button class="btn">بحث</button>
+‏                    </div>
+‏                    <div class="search-results" style="margin-top: 20px;">
+‏                        <p>نتائج البحث ستظهر هنا...</p>
+‏                    </div>
+‏                </div>
+‏            </div>
+            
+            <!-- صفحة الإضافة -->
+‏            <div class="page" id="add-page">
+‏                <div class="card">
+‏                    <h2>إضافة عنصر جديد</h2>
+‏                    <div class="input-form">
+‏                        <div class="form-group">
+‏                            <label>العنوان</label>
+‏                            <input type="text" class="form-control" id="item-title">
+‏                        </div>
+‏                        <div class="form-group">
+‏                            <label>الوصف</label>
+‏                            <textarea class="form-control" id="item-desc" rows="4"></textarea>
+‏                        </div>
+‏                        <div class="form-group">
+‏                            <label>التصنيف</label>
+‏                            <select class="form-control" id="item-category">
+‏                                <option value="">اختر التصنيف</option>
+‏                                <option value="1">عام</option>
+‏                                <option value="2">عمل</option>
+‏                                <option value="3">شخصي</option>
+‏                            </select>
+‏                        </div>
+‏                        <button class="btn" id="save-btn">حفظ</button>
+‏                    </div>
+‏                </div>
+‏            </div>
+            
+            <!-- صفحة الإعدادات -->
+‏            <div class="page" id="settings-page">
+‏                <div class="card">
+‏                    <h2>الإعدادات</h2>
+‏                    <div class="list-item">
+‏                        <div class="list-item-icon">
+‏                            <i class="fas fa-user"></i>
+‏                        </div>
+‏                        <div class="list-item-content">
+‏                            <div class="list-item-title">الملف الشخصي</div>
+‏                            <div class="list-item-desc">تعديل بيانات الملف الشخصي</div>
+‏                        </div>
+‏                    </div>
+‏                    <div class="list-item">
+‏                        <div class="list-item-icon">
+‏                            <i class="fas fa-bell"></i>
+‏                        </div>
+‏                        <div class="list-item-content">
+‏                            <div class="list-item-title">الإشعارات</div>
+‏                            <div class="list-item-desc">إدارة إعدادات الإشعارات</div>
+‏                        </div>
+‏                    </div>
+‏                    <div class="list-item">
+‏                        <div class="list-item-icon">
+‏                            <i class="fas fa-shield-alt"></i>
+‏                        </div>
+‏                        <div class="list-item-content">
+‏                            <div class="list-item-title">الأمان والخصوصية</div>
+‏                            <div class="list-item-desc">إدارة إعدادات الأمان</div>
+‏                        </div>
+‏                    </div>
+‏                    <div class="list-item">
+‏                        <div class="list-item-icon">
+‏                            <i class="fas fa-palette"></i>
+‏                        </div>
+‏                        <div class="list-item-content">
+‏                            <div class="list-item-title">المظهر</div>
+‏                            <div class="list-item-desc">تخصيص مظهر التطبيق</div>
+‏                        </div>
+‏                    </div>
+‏                </div>
+‏            </div>
+            
+            <!-- صفحة الإعلان للعميل -->
+‏            <div class="page" id="ads-page">
+‏                <div class="card">
+‏                    <h2>أحدث العروض والإعلانات</h2>
+‏                    <div style="text-align: center; margin: 20px 0;">
+‏                        <img src="/api/placeholder/350/200" alt="إعلان" style="width: 100%; max-width: 350px; border-radius: 8px; box-shadow: 0 3px 6px rgba(0,0,0,0.1);">
+‏                    </div>
+‏                    <h3 style="color: #e53935; font-size: 18px; margin: 10px 0;">عرض خاص لفترة محدودة!</h3>
+‏                    <p style="margin-bottom: 15px;">استمتع بخصم 30% على جميع المنتجات الجديدة حتى نهاية الشهر الحالي.</p>
+‏                    <button class="btn" style="background-color: #e53935;">احصل على العرض الآن</button>
+‏                </div>
+                
+‏                <div class="card">
+‏                    <h2>إعلانات مميزة</h2>
+‏                    <div class="list-item">
+‏                        <div class="list-item-icon" style="background-color: #ffecb3;">
+‏                            <i class="fas fa-percentage" style="color: #ff9800;"></i>
+‏                        </div>
+‏                        <div class="list-item-content">
+‏                            <div class="list-item-title">عروض الأسبوع</div>
+‏                            <div class="list-item-desc">تخفيضات تصل إلى 50% على المنتجات المختارة</div>
+‏                        </div>
+‏                    </div>
+‏                    <div class="list-item">
+‏                        <div class="list-item-icon" style="background-color: #e8f5e9;">
+‏                            <i class="fas fa-gift" style="color: #4caf50;"></i>
+‏                        </div>
+‏                        <div class="list-item-content">
+‏                            <div class="list-item-title">هدايا مجانية</div>
+‏                            <div class="list-item-desc">احصل على هدية مجانية مع كل عملية شراء بقيمة تزيد عن 200 ريال</div>
+‏                        </div>
+‏                    </div>
+‏                    <div class="list-item">
+‏                        <div class="list-item-icon" style="background-color: #e3f2fd;">
+‏                            <i class="fas fa-shipping-fast" style="color: #2196f3;"></i>
+‏                        </div>
+‏                        <div class="list-item-content">
+‏                            <div class="list-item-title">شحن مجاني</div>
+‏                            <div class="list-item-desc">شحن مجاني لجميع الطلبات داخل المدينة</div>
+‏                        </div>
+‏                    </div>
+‏                </div>
+                
+‏                <div class="card">
+‏                    <h2>أضف إعلانك الخاص</h2>
+‏                    <div class="input-form">
+‏                        <div class="form-group">
+‏                            <label>عنوان الإعلان</label>
+‏                            <input type="text" class="form-control" id="ad-title" placeholder="أدخل عنوان الإعلان">
+‏                        </div>
+‏                        <div class="form-group">
+‏                            <label>تفاصيل الإعلان</label>
+‏                            <textarea class="form-control" id="ad-desc" rows="4" placeholder="أدخل تفاصيل الإعلان"></textarea>
+‏                        </div>
+‏                        <div class="form-group">
+‏                            <label>مدة الإعلان</label>
+‏                            <select class="form-control" id="ad-duration">
+‏                                <option value="">اختر المدة</option>
+‏                                <option value="7">أسبوع</option>
+‏                                <option value="14">أسبوعين</option>
+‏                                <option value="30">شهر</option>
+‏                            </select>
+‏                        </div>
+‏                        <div class="form-group">
+‏                            <label>إضافة صورة</label>
+‏                            <button class="btn" style="background-color: #666; margin-bottom: 10px;">اختر صورة</button>
+‏                        </div>
+‏                        <button class="btn" id="publish-ad-btn">نشر الإعلان</button>
+‏                    </div>
+‏                </div>
+‏            </div>
+‏        </div>
+        
+‏        <div class="bottom-nav">
+‏            <div class="nav-item active" data-page="home-page">
+‏                <div class="nav-icon"><i class="fas fa-home"></i></div>
+‏                <div class="nav-text">الرئيسية</div>
+‏            </div>
+‏            <div class="nav-item" data-page="search-page">
+‏                <div class="nav-icon"><i class="fas fa-search"></i></div>
+‏                <div class="nav-text">البحث</div>
+‏            </div>
+‏            <div class="nav-item" data-page="add-page">
+‏                <div class="nav-icon"><i class="fas fa-plus-circle"></i></div>
+‏                <div class="nav-text">إضافة</div>
+‏            </div>
+‏            <div class="nav-item" data-page="ads-page">
+‏                <div class="nav-icon"><i class="fas fa-ad"></i></div>
+‏                <div class="nav-text">إعلانات</div>
+‏            </div>
+‏            <div class="nav-item" data-page="settings-page">
+‏                <div class="nav-icon"><i class="fas fa-cog"></i></div>
+‏                <div class="nav-text">الإعدادات</div>
+‏            </div>
+‏        </div>
+‏    </div>
+
+‏    <script>
+        // التبديل بين الصفحات
+‏        document.querySelectorAll('.nav-item').forEach(item => {
+‏            item.addEventListener('click', function() {
+                // إزالة الفئة النشطة من جميع العناصر
+‏                document.querySelectorAll('.nav-item').forEach(navItem => {
+‏                    navItem.classList.remove('active');
+                });
+                
+                // إضافة الفئة النشطة للعنصر المضغوط
+‏                this.classList.add('active');
+                
+                // إخفاء جميع الصفحات
+‏                document.querySelectorAll('.page').forEach(page => {
+‏                    page.classList.remove('active');
+                });
+                
+                // إظهار الصفحة المطلوبة
+‏                const pageId = this.getAttribute('data-page');
+‏                document.getElementById(pageId).classList.add('active');
+            });
+        });
+        
+        // معالجة الإرسال
+‏        document.getElementById('save-btn').addEventListener('click', function() {
+‏            const title = document.getElementById('item-title').value;
+‏            const desc = document.getElementById('item-desc').value;
+‏            const category = document.getElementById('item-category').value;
+            
+‏            if (title && desc && category) {
+‏                alert('تم حفظ العنصر بنجاح!');
+                // هنا يمكن إضافة كود لحفظ البيانات فعلياً
+                
+                // إعادة تعيين النموذج
+‏                document.getElementById('item-title').value = '';
+‏                document.getElementById('item-desc').value = '';
+‏                document.getElementById('item-category').value = '';
+‏            } else {
+‏                alert('يرجى ملء جميع الحقول المطلوبة');
+            }
+        });
+        
+        // معالجة نشر الإعلان
+‏        document.getElementById('publish-ad-btn').addEventListener('click', function() {
+‏            const title = document.getElementById('ad-title').value;
+‏            const desc = document.getElementById('ad-desc').value;
+‏            const duration = document.getElementById('ad-duration').value;
+            
+‏            if (title && desc && duration) {
+‏                alert('تم نشر إعلانك بنجاح! سيظهر بعد المراجعة.');
+                
+                // إعادة تعيين نموذج الإعلان
+‏                document.getElementById('ad-title').value = '';
+‏                document.getElementById('ad-desc').value = '';
+‏                document.getElementById('ad-duration').value = '';
+‏            } else {
+‏                alert('يرجى ملء جميع حقول الإعلان المطلوبة');
+            }
+        });
+        
